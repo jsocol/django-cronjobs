@@ -1,7 +1,15 @@
-registered = {}
+registered = {
+    'weekly': {},
+    'daily': {},
+    'hourly': {},
+    'minutely': {},
+    'others': {},
+}
 
 
-def register(f):
+def register(rate='others'):
     """Decorator to add the function to the cronjob library."""
-    registered[f.__name__] = f
-    return f
+    def decorator(f):
+        registered[rate][f.__name__] = f
+        return f
+    return decorator
