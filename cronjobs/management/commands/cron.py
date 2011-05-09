@@ -39,23 +39,24 @@ class Command(BaseCommand):
             print 'Unrecognized name: %s' % script
             sys.exit(1)
 
-        # aquire lock
-        filename = os.path.join(tempfile.gettempdir(),
-                                'django_cron.%s' % script)
-        try:
-            fd = os.open(filename, os.O_CREAT|os.O_EXCL)
+        # Acquire lock if needed.
+        if script in cronjobs.registered_lock:
+            filename = os.path.join(tempfile.gettempdir(),
+                                    'django_cron.%s' % script)
+            try:
+                fd = os.open(filename, os.O_CREAT|os.O_EXCL)
 
-            def register():
-                os.close(fd)
-                os.remove(filename)
+                def register():
+                    os.close(fd)
+                    os.remove(filename)
 
-            atexit.register(register)
-        except OSError:
-            msg = ("Script run multiple times. If this isn't true, delete "
-                   "`%s`." % filename)
-            log.error(msg)
-            sys.stderr.write(msg + "\n")
-            sys.exit(1)
+                atexit.register(register)
+            except OSError:
+                msg = ("Script run multiple times. If this isn't true, delete "
+                       "`%s`." % filename)
+                log.error(msg)
+                sys.stderr.write(msg + "\n")
+                sys.exit(1)
 
         log.info("Beginning job: %s %s" % (script, args))
         registered[script](*args)
