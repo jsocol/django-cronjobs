@@ -1,11 +1,11 @@
 from setuptools import setup
 
 setup(
-    name='django_cronjobs',
-    version='0.1',
+    name='django-cronjobs',
+    version='0.2',
     description='A simple Django app for running cron jobs.',
-    author='Jeff Balogh, James Socol',
-    author_email='jbalogh@mozilla.com, james@mozilla.com',
+    author='Mozilla',
+    author_email='james@mozilla.com',
     url='http://github.com/jsocol/django-cronjobs',
     license='BSD',
     packages=['cronjobs'],
