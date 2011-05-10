@@ -43,3 +43,16 @@ So to run ``periodic_task`` from above, you could use::
     $ ./manage.py cron periodic_task
 
 Additional arguments can be passed after the name of the task.
+
+
+Locks
+=====
+
+By default, cron jobs are locked so that only one copy of a given job can be
+running at a time. If you need to override this behavior, you can pass the
+``lock`` kwarg to ``register``::
+
+    from cronjobs import register
+    @register(lock=False)
+    def my_cron_job():
+        # Multiple instances of me can run simultaneously.
