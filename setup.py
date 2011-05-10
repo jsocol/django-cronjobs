@@ -2,8 +2,9 @@ from setuptools import setup
 
 setup(
     name='django-cronjobs',
-    version='0.2',
+    version='0.2.1',
     description='A simple Django app for running cron jobs.',
+    long_description=open('README.rst').read(),
     author='Mozilla',
     author_email='james@mozilla.com',
     url='http://github.com/jsocol/django-cronjobs',
