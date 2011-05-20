@@ -56,3 +56,7 @@ running at a time. If you need to override this behavior, you can pass the
     @register(lock=False)
     def my_cron_job():
         # Multiple instances of me can run simultaneously.
+
+If you run multiple sets of cronjobs on the same file system and need the locks
+to not collide, set ``CRONJOB_LOCK_PREFIX`` to something unique in your Django
+settings.

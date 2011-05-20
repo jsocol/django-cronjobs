@@ -4,13 +4,15 @@ import os
 import sys
 import tempfile
 
-
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
 import cronjobs
 
+
 log = logging.getLogger('cron')
+
+LOCK = getattr(settings, 'CRONJOB_LOCK_PREFIX', 'lock')
 
 
 class Command(BaseCommand):
@@ -42,7 +44,7 @@ class Command(BaseCommand):
         # Acquire lock if needed.
         if script in cronjobs.registered_lock:
             filename = os.path.join(tempfile.gettempdir(),
-                                    'django_cron.%s' % script)
+                                    'django_cron.%s.%s' % (LOCK, script))
             try:
                 fd = os.open(filename, os.O_CREAT|os.O_EXCL)
 
