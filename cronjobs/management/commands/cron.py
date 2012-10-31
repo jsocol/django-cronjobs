@@ -2,9 +2,11 @@ import atexit
 import logging
 import os
 import sys
+import imp
 import tempfile
 
 from django.conf import settings
+from django.utils.importlib import import_module
 from django.core.management.base import BaseCommand
 
 import cronjobs
@@ -23,9 +25,16 @@ class Command(BaseCommand):
         # Load up all the cron scripts.
         for app in settings.INSTALLED_APPS:
             try:
-                __import__('%s.cron' % app)
-            except ImportError:
-                pass
+                app_path = import_module(app).__path__
+            except AttributeError:
+                continue
+
+            try:
+                imp.find_module('cron', app_path)
+            except ImportError as e:
+                continue
+
+            import_module('%s.cron' % app)
 
         registered = cronjobs.registered
 
