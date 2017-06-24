@@ -6,6 +6,14 @@ django-cronjobs is a simple Django app that runs registered cron jobs via a
 management command.
 
 
+DEPRECATION
+===========
+
+**django-cronjobs** should be considered **deprecated and unmaintained.** It 
+was effectively a shortcut for adding management commands, but that has 
+gotten easier and should be considered the best path forward.
+
+
 Installing
 ==========
 
